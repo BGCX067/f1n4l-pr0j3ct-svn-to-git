@@ -1,0 +1,7 @@
+	<?php if(isset($this->produto['id_produto'])):?>	
+		<?PHP foreach ($this->produto as $produto): ?>
+			<strong><?PHP echo $produto['nome']; ?></strong><br/>
+			<strong><?PHP echo 'R$ ' . number_format($produto['preco'] / 100, 2, ',', '.'); ?></strong><br/>
+			<small><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'detalhes', 'id' => $produto['id_produto']), null, true); ?>">Mais Informações</a></small>
+		<?PHP endforeach; ?>
+	<?php endif;?>

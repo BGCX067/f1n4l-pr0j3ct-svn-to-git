@@ -1,0 +1,26 @@
+<?PHP
+Zend_Loader::loadClass('Zend_Auth');
+$authClass = Zend_Auth::getInstance();
+
+if ($authClass->hasIdentity()) {
+    $auth = $authClass->getStorage()->read();
+
+    $id = $auth['usuario_id'];
+
+    $usuarioModel = new Application_Model_Usuario();
+
+    $usuario = $usuarioModel->find($id)->current();
+}
+?>
+
+
+
+	<div class="conteudo-admin">
+		
+		<h2>Cadastro de usuário - Contato</h2>
+		<div class="forms-admin">
+	<?PHP echo $this->form; ?>
+	* Indica campo obrigatório
+	<p><input class="button-back" type="button" value=" Voltar " onclick="history.go(-1)"></p>
+	</div>
+	</div>

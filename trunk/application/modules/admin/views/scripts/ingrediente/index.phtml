@@ -1,0 +1,36 @@
+﻿	<div class="conteudo-admin">
+	<h2>Gerenciar Ingredientes</h2>
+	<div class="forms-admin">
+		<div class="link-text">
+		<a href="<?PHP echo $this->url(array('action' => 'adicionar')); ?>">Adicionar Ingrediente <img alt="" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/new.png' ?>"></a> 
+		</div>
+		<table border="1" width="98%">
+			<tr class="linha3">
+				<th>Nome</th>
+				<th align="center">Relacionar</th>
+				<th align="center">Editar</th>
+				<th align="center">Remover</th>
+			</tr>
+			<?php $linha = 0;?>
+		<?PHP foreach ($this->ingrediente as $produto): ?>
+			<?php 
+			if($linha == 0){
+				echo '<tr class="linha1">';
+				$linha = 1;
+			}else{
+				echo '<tr class="linha2">';
+				$linha = 0;
+			}
+			?>
+				<td><?PHP echo $produto['nome_ingrediente']; ?></td>
+				<td align="center"><a href="<?PHP echo $this->url(array('controller' => 'relacionamentos','action' => 'index', 'id' => $produto['id_ingrediente'])); ?>">Relacionar ingrediente a produto</a></td>
+				<td align="center"><a href="<?PHP echo $this->url(array('action' => 'editar', 'id' => $produto['id_ingrediente'])); ?>"><img alt="editar" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/edit.png' ?>"></a></td>
+				<td align="center"><a href="<?PHP echo $this->url(array('action' => 'remover', 'id' => $produto['id_ingrediente'])); ?>"><img alt="excluir" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/delete.png' ?>"></a></td>
+			</tr>
+		<?PHP endforeach; ?>
+		</table>
+			
+		</div>
+	<p><input class="button-back" type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin' ?>'"></p>
+	</div>
+

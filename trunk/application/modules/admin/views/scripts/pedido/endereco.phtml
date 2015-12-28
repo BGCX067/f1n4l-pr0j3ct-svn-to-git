@@ -1,0 +1,34 @@
+﻿	<div class="conteudo-admin">
+		<h2>Endereço</h2>
+		<div class="forms-admin">
+			<table border="1" width="98%">
+				<tr class="linha3">
+					<th>Cidade</th>
+					<th>Rua</th>
+					<th>Bairro</th>
+					<th>Numero</th>
+					<th>Complemento</th>
+				</tr>
+			<?php $linha = 0;?>
+			<?PHP foreach ($this->dados as $dados): ?>
+			<?php 
+			if($linha == 0){
+				echo '<tr class="linha1">';
+				$linha = 1;
+			}else{
+				echo '<tr class="linha2">';
+				$linha = 0;
+			}
+			?>
+			<td><?PHP echo $dados['cidade']; ?></td>
+			<td><?PHP echo $dados['rua']; ?></td>
+			<td><?PHP echo $dados['bairro']; ?></td>
+			<td><?PHP echo $dados['numero']; ?></td>
+			<td><?PHP echo $dados['complemento']; ?></td>
+			</tr>
+			<?PHP endforeach; ?>
+			
+			</table>
+			<input type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin/pedido' ?>'">	
+		</div>
+	</div>

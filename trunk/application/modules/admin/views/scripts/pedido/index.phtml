@@ -1,0 +1,74 @@
+﻿	
+	<div class="conteudo-admin">
+		<h2>Pedidos Em Andamento</h2>
+		<a href="<?PHP echo $this->url(array('action' => 'concluido')); ?>">Concluídos</a>
+		<div class="forms-admin">
+			<table border="1" width="98%">
+				<tr class="linha3">
+
+					<th>Visualizar</th>
+					<th>Valor</th>
+					<th>Estado</th>
+					<th>Data</th>
+					<th>Cliente</th>
+					<th align="center">Editar</th>
+				</tr>
+			<?php $linha = 0;?>
+			<?PHP foreach ($this->pedido as $pedido): ?>
+				<?php if($pedido['estado'] != 4):?>
+					<?php 
+					if($linha == 0){
+						echo '<tr class="linha1">';
+						$linha = 1;
+					}else{
+						echo '<tr class="linha2">';
+						$linha = 0;
+					}
+					?>
+					<?php
+						$busca = $pedido['cliente'];
+							$usuarioModel = new Application_Model_Usuario();
+								$nome_usuario = $usuarioModel->fetchAll(
+													$usuarioModel->select()
+														->from($usuarioModel->info(Zend_Db_Table_Abstract::NAME))
+														->columns(array('nome'))
+														->where('idusuario = ?', $busca)
+													);
+					?>
+					<td align="center"><a href="<?PHP echo $this->url(array('action' => 'visualizar', 'id' => $pedido['id_pedido'])); ?>"><img alt="view" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/view.png' ?>"></a></td>
+					<td align="center"><?PHP echo 'R$ ' . number_format($pedido['valor'] / 100, 2, ',', '.'); ?></td>
+					<td align="center">
+					<?PHP 
+					switch($pedido['estado']){
+					case 0: echo 'em espera';
+					break;
+					case 1: echo 'em andamento';
+					break;
+					case 2: echo 'concluido';
+					break;
+					case 3: echo 'em entrega';
+					break;
+					case 4: echo 'entregue';
+					break;
+					}
+					?></td>
+					<td align="center"><?PHP echo $pedido['data']; ?></td>
+					<td align="center"><a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'endereco', 'id' => $pedido['cliente'])); ?>"><?PHP 
+					if(isset($nome_usuario[0])){echo $nome_usuario[0]['nome'];}?></a></td>
+					<?php if($pedido['estado'] == 3):?>
+						<td align="center"><a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'entregue', 'id' => $pedido['id_pedido'])); ?>">Entregue</a></td>
+					<?php else:?>
+						<td align="center"><a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'espera', 'id' => $pedido['id_pedido'])); ?>">Em espera</a> | 
+						<a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'andamento', 'id' => $pedido['id_pedido'])); ?>">Em andamento</a> | 
+						<a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'concluir', 'id' => $pedido['id_pedido'])); ?>">Concluido</a> | 
+						<a href="<?PHP echo $this->url(array('controller' => 'pedido','action' => 'entrega', 'id' => $pedido['id_pedido'])); ?>">Em Entrega</a></td>
+					<?php endif;?>
+					</tr>
+				<?php endif;?>
+			<?PHP endforeach; ?>
+			
+			</table>
+			
+		</div>
+		<p><input class="button-back" type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin' ?>'"></p>
+	</div>

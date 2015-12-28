@@ -1,0 +1,35 @@
+<?PHP
+Zend_Loader::loadClass('Zend_Auth');
+$authClass = Zend_Auth::getInstance();
+
+if ($authClass->hasIdentity()) {
+    $auth = $authClass->getStorage()->read();
+
+    $id = $auth['usuario_id'];
+
+    $usuarioModel = new Application_Model_Usuario();
+
+    $usuario = $usuarioModel->find($id)->current();
+}
+?>
+<?PHP if (isset($usuario)): ?>
+<div class="login">
+<p class="saudlog">Seja Bem-vindo,     
+<b><?PHP echo $usuario['nome']; ?></b> <br />
+<?php if(Misc::isAdmin()):?>
+<a href="<?PHP echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'), null, true); ?>"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/admin.png'?> /></a>
+<?php else: ?>
+<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cliente', 'action' => 'index'), null, true); ?>"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/rewrite.png'?> /></a>
+<?php endif;?>
+<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'login', 'action' => 'logout'), null, true); ?>"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/exit.png'?> /></a>
+</p>
+</div>
+<?PHP else: ?>
+    <div class="login">     
+		<form id="login-form"  method="post" action="<?PHP echo $this->url(array('controller' => 'login'), null, true); ?>">
+				<input type="text" name="usuario" value="CPF" alt="CPF" class="input-login"/>
+				<input type="password" name="senha" value="Senha" alt="Senha" class="input-login"/>
+				<input type="submit" value="Login" class="submit-login"/>
+        </form>
+	</div>	
+<?PHP endif; ?>

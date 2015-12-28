@@ -1,0 +1,33 @@
+﻿
+	<div class="conteudo-cliente">
+	<h2>Editar Cadastro</h2>
+	<div class="forms-admin">	
+		<?php
+	Zend_Loader::loadClass('Zend_Auth');
+	$authClass = Zend_Auth::getInstance();
+
+		if ($authClass->hasIdentity()) {
+			$auth = $authClass->getStorage()->read();
+
+			$id = $auth['usuario_id'];
+
+			$usuarioModel = new Application_Model_Usuario();
+
+			$usuario = $usuarioModel->find($id)->current();
+		}
+		?>
+			<?php if(isset($usuario)): ?>
+			<div class="link-text">
+			<h3><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'alterardados', 'action' => 'index'), null, true); ?>">Informações de Login</a></h3>
+			<h3><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cadastro', 'action' => 'endereco'), null, true); ?>">Informações de Endereco</a></h3>
+			<h3><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cadastro', 'action' => 'contato'), null, true); ?>">Informações de Contato</a></h3>
+			</div>
+			<?PHP else: ?>
+			<h3>Efetue login e complete seu cadastro!</h3>
+			<?PHP endif; ?>
+			
+
+		
+	</div>
+	</div>
+

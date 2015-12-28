@@ -1,0 +1,93 @@
+﻿<?php if($this->visualiza == 1):?>
+
+	<div class="conteudo-admin">
+		<h2>Refazer Pedido</h2>
+		<div class="forms-admin">
+			<table border="1" width="98%">
+				<tr class="linha3">
+					<th>Produto</th>
+					<th>Adicionais</th>
+				</tr>
+			<?php $linha = 0;?>
+			<?PHP foreach ($this->pedido as $pedido): ?>
+			<?php 
+			if($linha == 0){
+				echo '<tr class="linha1">';
+				$linha = 1;
+			}else{
+				echo '<tr class="linha2">';
+				$linha = 0;
+			}
+			?>
+				<?php 
+					$busca = $pedido['id_produto'];
+
+					$produtoModel = new Application_Model_Produto();
+						$nome_produto = $produtoModel->fetchAll(
+											$produtoModel->select()
+												->from($produtoModel->info(Zend_Db_Table_Abstract::NAME))
+												->columns(array('nome'))
+												->where('id_produto = ?', $busca)
+											);
+
+					$buscas = $pedido['id_adicionais'];
+
+					$addModel = new Application_Model_Adicionais();
+					
+						$adiciona = $addModel->fetchAll(
+											$addModel->select()
+												->from($addModel->info(Zend_Db_Table_Abstract::NAME))
+												->columns(array('id_adicional', 'quantidade'))
+												->where('id_adicionais = ?', $buscas)
+											);
+
+
+				?>
+
+			<td><?PHP echo $nome_produto[0]['nome']; ?></td>
+			<td align="center">
+			<?PHP 
+				// if(isset($adicional[0]['id_adicional'])){
+					foreach($adiciona as $treco){
+						$buscas = $treco['id_adicional'];
+						
+						$ingredienteModel = new Application_Model_Ingrediente();
+							$nome_ingrediente = $ingredienteModel->fetchAll(
+												$ingredienteModel->select()
+													->from($ingredienteModel->info(Zend_Db_Table_Abstract::NAME))
+													->columns(array('nome_ingrediente'))
+													->where('id_ingrediente = ?', $buscas)
+						);
+						echo $nome_ingrediente[0]['nome_ingrediente'].'(' . $treco['quantidade'] .') ';
+					}
+				// }else{
+					// echo 'nenhum adicional';
+				// }
+			?>
+			
+			</td>
+			</tr>
+			<?PHP endforeach; ?>
+			
+			</table>
+			<ul class="menus-admin">	
+				<li class="button-admin">
+					<a href="<?php echo $this->url(array('controller' => 'pedido', 'action' => 'refazer', 'id' => $pedido['id_pedido'], 'confirma' => 1));?>">Confirmar</a>
+				</li>
+				<li class="button-admin-no">
+					<a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/pedido/ultimos' ?>">Voltar</a>
+				</li>
+			</ul>			
+		</div>
+	</div>
+
+<?php else:?>
+
+	<div class="conteudo-admin">
+		<h2>Refazer Pedido</h2>
+		<div class="sucesso">
+		<?php echo $this->aviso;?>
+		</div>
+	</div>
+
+<?php endif;?>

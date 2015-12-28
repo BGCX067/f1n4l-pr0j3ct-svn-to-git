@@ -1,0 +1,38 @@
+﻿<script type="text/javascript">
+	
+	$(function() {
+		$('#gallery a[rel=galeria]').fancybox();
+	});
+</script>
+
+
+
+
+	<div class="menu-left">
+			<h2>Galerias</h2>
+				<ul>
+		<?php if(isset($this->nome_galerias)):?>
+							<?PHP foreach ($this->nome_galerias as $galerias): ?>
+							<li ><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'galeria', 'action' => 'index', 'galeria' => $galerias['nome']), null, true); ?>"><?php echo $galerias['nome'];?></a></li>
+							<?PHP endforeach; ?>
+		<?php else:?>
+					<li>Categoria 1</li>
+					
+		<?php endif;?>
+				</ul>
+		</div>
+	<div class="conteudo">
+	<h2>Todas</h2>
+		<?php if(isset($this->galeria)):?>
+					<div id="gallery">
+					<ul>
+					<?PHP foreach ($this->galeria as $galeria): ?>
+						<li>
+							<a rel="galeria" href="/galeria_fotos/<?PHP echo $galeria['id_foto']; ?>.jpg" title="<?PHP echo $galeria['descricao']; ?>">
+								<img src="/galeria_fotos/thumbs/<?PHP echo $galeria['id_foto']; ?>.jpg" alt="<?PHP echo $galeria['descricao']; ?>" title="<?PHP echo $galeria['descricao']; ?>" width="150" height="100"/>
+							</a>
+						</li>
+					<?PHP endforeach; ?>
+					</ul>
+		<?php endif;?>
+	</div>

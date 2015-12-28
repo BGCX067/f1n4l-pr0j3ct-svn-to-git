@@ -1,0 +1,73 @@
+﻿	<div class="conteudo-admin">
+	<h2>Ultimos Pedidos</h2>
+	<div class="forms-admin">
+				<table border="1" width="98%">
+					<tr class="linha3">
+
+						<th>Refazer</th>
+						<th>Produtos</th>
+						<th>Valor</th>
+						<th>Estado</th>
+						<th>Data</th>
+					</tr>
+				<?php $linha = 0;?>
+				<?PHP foreach ($this->pedido as $pedido): ?>
+				<?php 
+				if($linha == 0){
+					echo '<tr class="linha1">';
+					$linha = 1;
+				}else{
+					echo '<tr class="linha2">';
+					$linha = 0;
+				}
+				?>
+				<td align="center"><a href="<?php echo $this->url(array('controller' => 'pedido', 'action' => 'refazer', 'id' => $pedido['id_pedido']));?>"><img alt="refazer" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/remake.png' ?>"></a></td>
+				<td align="center">
+				<?php
+					$busca = $pedido['id_pedido'];
+
+					$prodpedModel = new Application_Model_ProdutoPedido();
+					
+					$dados = $prodpedModel->fetchAll(
+						$prodpedModel->select()
+							->where('id_pedido = ?', $busca)
+					);
+
+					foreach($dados as $dados){
+					$busca = $dados['id_produto'];
+						$produtoModel = new Application_Model_Produto();
+								$nome_produto = $produtoModel->fetchAll(
+													$produtoModel->select()
+														->from($produtoModel->info(Zend_Db_Table_Abstract::NAME))
+														->columns(array('nome'))
+														->where('id_produto = ?', $busca)
+													);
+
+					echo '<h4>'.$nome_produto[0]['nome'].'</h4>';
+					}
+				?>
+				</td>
+				<td align="center"><?PHP echo 'R$ ' . number_format($pedido['valor'] / 100, 2, ',', '.'); ?></td>
+				<td align="center">
+									<?PHP 
+					switch($pedido['estado']){
+					case 0: echo 'em espera';
+					break;
+					case 1: echo 'em andamento';
+					break;
+					case 2: echo 'concluido';
+					break;
+					case 3: echo 'em entrega';
+					break;
+					case 4: echo 'entregue';
+					break;
+					}
+					?></td>
+
+				<td align="center"><?PHP echo $pedido['data']; ?></td>
+				</tr>
+				<?PHP endforeach; ?>
+				
+				</table>
+	</div>
+	</div>

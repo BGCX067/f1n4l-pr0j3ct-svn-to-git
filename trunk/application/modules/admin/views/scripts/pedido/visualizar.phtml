@@ -1,0 +1,75 @@
+﻿
+	<div class="conteudo-admin">
+		<h2>Pedidos</h2>
+		<div class="forms-admin">
+			<table border="1" width="98%">
+				<tr class="linha3">
+					<th>Pedido</th>
+					<th>Produto</th>
+					<th>Adicionais</th>
+				</tr>
+			<?php $linha = 0;?>
+			<?PHP foreach ($this->pedido as $pedido): ?>
+			<?php 
+			if($linha == 0){
+				echo '<tr class="linha1">';
+				$linha = 1;
+			}else{
+				echo '<tr class="linha2">';
+				$linha = 0;
+			}
+			?>
+				<?php 
+					$busca = $pedido['id_produto'];
+
+					$produtoModel = new Application_Model_Produto();
+						$nome_produto = $produtoModel->fetchAll(
+											$produtoModel->select()
+												->from($produtoModel->info(Zend_Db_Table_Abstract::NAME))
+												->columns(array('nome'))
+												->where('id_produto = ?', $busca)
+											);
+
+					$buscas = $pedido['id_adicionais'];
+
+					$addModel = new Application_Model_Adicionais();
+					
+						$adiciona = $addModel->fetchAll(
+											$addModel->select()
+												->from($addModel->info(Zend_Db_Table_Abstract::NAME))
+												->columns(array('id_adicional', 'quantidade'))
+												->where('id_adicionais = ?', $buscas)
+											);
+
+
+				?>
+			<td><?PHP echo $pedido['id_pedido']; ?></td>
+			<td><?PHP echo $nome_produto[0]['nome']; ?></td>
+			<td align="center">
+			<?PHP 
+				// if(isset($adicional[0]['id_adicional'])){
+					foreach($adiciona as $treco){
+						$buscas = $treco['id_adicional'];
+						
+						$ingredienteModel = new Application_Model_Ingrediente();
+							$nome_ingrediente = $ingredienteModel->fetchAll(
+												$ingredienteModel->select()
+													->from($ingredienteModel->info(Zend_Db_Table_Abstract::NAME))
+													->columns(array('nome_ingrediente'))
+													->where('id_ingrediente = ?', $buscas)
+						);
+						echo $nome_ingrediente[0]['nome_ingrediente'].'(' . $treco['quantidade'] .') ';
+					}
+				// }else{
+					// echo 'nenhum adicional';
+				// }
+			?>
+			
+			</td>
+			</tr>
+			<?PHP endforeach; ?>
+			
+			</table>
+			<input type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin/pedido' ?>'">	
+		</div>
+	</div>

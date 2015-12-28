@@ -1,0 +1,184 @@
+
+.clear{
+	clear:both;
+}
+
+#main-container{
+	width:700px;
+	margin:20px auto;
+}
+
+.container{
+	margin-bottom:40px;
+}
+
+.top-label{
+	background:url(img/label_bg.png) no-repeat;
+	display:inline-block;
+	margin-left:20px;
+	position:relative;
+	margin-bottom:-15px;
+}
+
+.label-txt{
+	background:url(img/label_bg.png) no-repeat top right;
+	display:inline-block;
+	font-size:10px;
+	height:36px;
+	margin-left:10px;
+	padding:12px 15px 0 5px;
+	text-transform:uppercase;
+}
+
+.content-area{
+	/*background:url(img/container_top.png) no-repeat Por: Ramon Souza, Rodrigo Dapper e Willian Wagnerfcfcfc;*/
+	padding:15px 20px 0 20px;
+}
+
+.content{
+
+}
+
+.bottom-container-border{
+	background:url(img/container_bottom.png) no-repeat;
+	height:14px;
+}
+
+.combo{
+	border:2px solid #F5F5F5;
+	float:left;
+	margin:18px;
+	padding:5px;
+	width: 90%;
+}
+.product{
+	border:2px solid #F5F5F5;
+	float:left;
+	margin:18px;
+	padding:5px;
+}
+.products{
+	border:2px solid #F5F5F5;
+	float:left;
+	margin:5px;
+	padding:5px;
+}
+
+p.descr{
+	padding:5px 0;
+}
+
+small{
+	display:block;
+	margin-top:4px;
+}
+
+.tooltip{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	display: none;
+	background-color:#999;
+	border:1px solid #c2c2c2;
+	color:#fff;
+	padding:10px;
+	-moz-border-radius:12px;
+	-khtml-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius:12px;
+}
+.tooltip a{
+color:#fff;
+font-weight:bold;
+padding:0;
+}
+.tooltip a:hover{
+color:#c2c2c2;
+
+}
+#cart-icon{
+	width:128px;
+	float:left;
+	position:relative;
+}
+
+#ajax-loader{
+	position:absolute;
+	top:0px;
+	left:0px;
+	visibility:hidden;
+}
+
+#item-list{
+	float:left;
+	width:490px;
+	margin-left:20px;
+	padding-top:15px;
+}
+
+a.remove,a.remove:visited{
+	color:red;
+	font-size:10px;
+	text-transform:uppercase;
+}
+
+#total{
+	clear:both;
+	float:right;
+	font-size:10px;
+	font-weight:bold;
+	padding:10px 12px;
+}
+
+#item-list table{
+	/*background-color:#F7F7F7;*/
+	border:1px solid #EFEFEF;
+	margin-top:5px;
+	padding:4px;
+}
+
+a.button,a.button:visited{
+	display:none;
+
+	height:29px;
+	width:136px;
+
+	padding-top:15px;
+	margin:0 auto;
+	overflow:hidden;
+
+	color:white;	
+	font-size:12px;
+	font-weight:bold;
+	text-align:center;
+	text-transform:uppercase;
+	
+	background:url(/img/button.png) no-repeat center top;
+}
+
+a.button:hover{
+	background-position:bottom;
+	text-decoration:none;
+}
+
+.tutorialzine h1{
+	color:white;
+	margin-bottom:10px;
+	font-size:48px;
+}
+
+.tutorialzine h3{
+	color:#F5F5F5;
+	font-size:10px;
+	font-weight:bold;
+	margin-bottom:30px;
+	text-transform:uppercase;
+}
+
+.tutorial-info{
+	color:white;
+	text-align:center;
+	padding:10px;
+	margin-top:-20px;
+}

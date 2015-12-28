@@ -1,0 +1,10 @@
+﻿	<div class="conteudo-admin">
+	<h2>Remover o produto <?php echo $this->produto[0]['nome'];?> ?</h2>
+	<div class="aviso">
+		<ul class="menus-admin">	
+			<li class="button-admin"><a href="<?PHP echo $this->url(array('action' => 'remover', 'id' => $this->id, 'confirma' => '1')); ?>">Sim</a></li>
+			<li class="button-admin-no"><a href="<?PHP echo $this->url(array('action' => 'remover', 'id' => $this->id, 'confirma' => '0')); ?>">Não</a>	</li>
+		</ul>
+		
+	</div>
+	</div>

@@ -1,0 +1,12 @@
+
+	<div class="conteudo-admin">
+		<div class="esqueci">
+		<h2>Digite o usuário</h2>
+		<?PHP echo $this->form; ?>
+		
+		<?php if($this->aviso){ echo $this->aviso; } ?>
+		<a  href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'login', 'action' => 'redefinir'), null, true); ?>">Já tenho o código de redefinição</a>
+				
+		</div>
+		</div>
+	

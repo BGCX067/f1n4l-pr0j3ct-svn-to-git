@@ -1,0 +1,26 @@
+﻿	<div class="menu-left">
+			<h2>Categorias</h2>
+				<ul>
+		<?php if(isset($this->categorias)):?>
+							<?PHP foreach ($this->categorias as $categoria): ?>
+							<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'index', 'categoria' => $categoria['nome_categoria']), null, true); ?>"><?php echo $categoria['nome_categoria'];?></a></li>
+							<?PHP endforeach; ?>
+							<div class="carrinho"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'carrinho', 'action' => 'index'), null, true); ?>"><img alt="carrinho" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/carrinho'. $this->carrinhoImagem .'.png' ?>"></a></div>
+		<?php else:?>
+					<li>Categoria 1</li>
+					<li>Categoria 2</li>
+					<li>Categoria 3</li>
+					<li>Categoria 4</li>
+					<li>Categoria 5</li>
+					<li>Categoria 6</li>
+					<li>Categoria 7</li>
+					<li>Categoria 8</li>
+		<?php endif;?>
+				</ul>
+		</div>
+	<div class="conteudo">
+	<h2>Como Comprar</h2>
+				<div class="video">
+					<?php echo $this->video; ?>
+				</div>
+	</div>

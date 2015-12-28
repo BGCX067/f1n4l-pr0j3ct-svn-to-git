@@ -1,0 +1,22 @@
+	<?php if(isset($this->produto['id_produto'])):?>	
+		<?PHP foreach ($this->produto as $produto): ?>
+<?php
+$valor = number_format($produto['preco'] / 100, 2, '.', '.');
+
+$id_table = 1;
+echo '{status:1,id:'.$produto['id_produto'].',price:'.$valor.',txt:\'\
+\
+<table width="100%" id="table_'.$produto['id_produto'].'">\
+  <tr>\
+    <td width="30"><img width="60" src="http://projeto.final/img/produtos/'.$produto['id_produto'].'.jpg"</td>\
+    <td width="60">'. $produto['nome'].'</td>\
+    <td width="60">R$ '. number_format($produto['preco'] / 100, 2, ',', '.').'</td>\
+    <td width="10"><input width="20" type="text" value="1" name="'.$produto['id_produto'].'" id="'.$produto['id_produto'].'_cnt" onchange="change('.$produto['id_produto'].');">\
+	</td>\
+	<td width="15%"><a href="#" onclick="remove('.$produto['id_produto'].');return false;" class="remove">Remover</a></td>\
+  </tr>\
+</table>\'}';
+
+?>
+		<?PHP endforeach; ?>
+	<?php endif;?>

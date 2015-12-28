@@ -1,0 +1,59 @@
+﻿	<div class="conteudo-admin">
+	<h2>Gerenciar Produtos</h2>
+	<div class="forms-admin">
+		<div class="link-text">
+		<a href="<?PHP echo $this->url(array('action' => 'adicionar')); ?>">Adicionar Produto <img alt="" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/new.png' ?>"></a> 
+		</div>
+		<table border="1" width="98%">
+			<tr class="linha3">
+				<th>Imagem</th>
+				<th>Nome</th>
+				<th>Ingredientes</th>
+				<th>Descrição</th>
+				<th>Preço</th>
+				<th>Categoria</th>
+				<th>Promoção?</th>
+				<th align="center">Editar</th>
+				<th align="center">Remover</th>
+			</tr>
+			<?php $linha = 0;?>
+		<?PHP foreach ($this->produto as $produto): ?>
+			<?php if($produto['categoria'] != 'Combo'):?>
+				<?php 
+				if($linha == 0){
+					echo '<tr class="linha1">';
+					$linha = 1;
+				}else{
+					echo '<tr class="linha2">';
+					$linha = 0;
+				}
+				?>
+				<?php $imagem = 'img/produtos/'. $produto['id_produto'] . '.jpg';?>
+				<?php if(file_exists($imagem)):?>
+					<td align="center"><img width="100" height="100" src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/'. $produto['id_produto'] . '.jpg'; ?> alt="<?PHP echo $produto['nome']; ?>" title="<?PHP echo $produto['nome']; ?>" /></td>
+				<?php else:?>
+					<td align="center"><img width="100" height="100" src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/sem-foto.gif'; ?> alt="<?PHP echo $produto['nome']; ?>" title="<?PHP echo $produto['nome']; ?>" /></td>				
+				<?php endif;?>
+					<td><?PHP echo $produto['nome']; ?></td>
+					<td>
+					<?PHP if($this->GetIngredientes($produto['id_produto']) != 0):?>
+						<?php echo $this->GetIngredientes($produto['id_produto']); ?>
+					<?php else:?>
+						<a href="<?PHP echo $this->url(array('controller' => 'ingrediente','action' => 'index')); ?>">Adicione ingredientes!</a> 
+					<?php endif; ?>
+					</td>
+					<td><?PHP echo $produto['descricao']; ?></td>
+					<td><?PHP echo 'R$ ' . number_format($produto['preco'] / 100, 2, ',', '.'); ?></td>
+					<td><?PHP echo $produto['categoria']; ?></td>
+					<td><?PHP if($produto['promocao'] == 1){echo 'sim';}else{echo 'não';} ?></td>
+					<td align="center"><a href="<?PHP echo $this->url(array('action' => 'editar', 'id' => $produto['id_produto'])); ?>"><img alt="editar" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/edit.png' ?>"></a></td>
+					<td align="center"><a href="<?PHP echo $this->url(array('action' => 'remover', 'id' => $produto['id_produto'])); ?>"><img alt="excluir" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/delete.png' ?>"></a></td>
+				</tr>
+			<?php endif;?>
+		<?PHP endforeach; ?>
+		</table>
+			
+		</div>
+	<p><input class="button-back" type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin' ?>'"></p>
+	</div>
+

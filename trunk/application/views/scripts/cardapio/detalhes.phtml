@@ -1,0 +1,87 @@
+﻿<?php $ingre = array();?>
+	<div class="menu-left">
+			<h2>Categorias</h2>
+				<ul>
+		<?php if(isset($this->categorias)):?>
+							<?PHP foreach ($this->categorias as $categoria): ?>
+							<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'index', 'categoria' => $categoria['nome_categoria']), null, true); ?>"><?php echo $categoria['nome_categoria'];?></a></li>
+							<?PHP endforeach; ?>
+		<?php else:?>
+					<li>Categoria 1</li>
+					<li>Categoria 2</li>
+					<li>Categoria 3</li>
+					<li>Categoria 4</li>
+					<li>Categoria 5</li>
+					<li>Categoria 6</li>
+					<li>Categoria 7</li>
+					<li>Categoria 8</li>
+		<?php endif;?>
+				</ul>
+		</div>
+	
+	<div class="conteudo">
+	<?php if(isset($this->cat)):?>
+			<h2><?php echo $this->cat;?></h2>
+		<?php else:?>
+			<h2><?php echo $this->produto[0]['nome'];?></h2>
+	<?php endif;?>
+	<?php if(isset($this->cat) && $this->cat == 'Combos'):?>
+		<?PHP foreach ($this->produto as $produto): ?>
+			<h4>Produto 1: <?php echo $produto['id_produto1'];?>
+			Produto 2: <?php echo $produto['id_produto2'];?>
+			Produto 3: <?php echo $produto['id_produto3'];?>
+			Produto 4: <?php echo $produto['id_produto4'];?>
+			Produto 5: <?php echo $produto['id_produto5'];?>
+			Preço: <?php echo $produto['preco'];?></h4>
+		<?PHP endforeach; ?>
+	<?php else:?>
+		<?PHP foreach ($this->produto as $produto): ?>
+				<div>
+					<h1><?php echo $produto['descricao'];?></h1>
+					<br />
+					<div class="img-view"><img width="200" height="200" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/'. $produto['id_produto'] . '.jpg'; ?>"/>
+					<br />
+					<br />
+					<h3><input class="button-back" type="button" value=" Voltar ao Cardápio " onclick="history.go(-1)">	</h3>
+					</div>
+					<div class="ingre-view">
+					<h3>Ingredientes:</h3>
+					<?php foreach ($this->ingredientes as $ingrediente):?>
+					<?php 
+					$busca = $ingrediente['id_ingrediente'];
+
+					$ingredienteModel = new Application_Model_Ingrediente();
+						$nome_ingred = $ingredienteModel->fetchAll(
+											$ingredienteModel->select()
+												->from($ingredienteModel->info(Zend_Db_Table_Abstract::NAME))
+												->columns(array('nome_ingrediente'))
+												->where('id_ingrediente = ?', $busca)
+											);
+					?>
+						<?php $ingre[sizeof($ingre)+1] = $nome_ingred[0]['nome_ingrediente'];?>
+					<?php endforeach;?>
+					<?php foreach($ingre as $chave => $valor):?>
+						<?php echo $valor;?>
+						<?php if($chave == sizeof($ingre)):?>
+						<?php echo '.';?>
+						<?php else:?>
+						<?php echo ',';?>
+						<?php endif;?>
+					<?php endforeach;?>
+					<br /><br />
+					<h3>Preço: <?PHP echo 'R$ ' . number_format($produto['preco'] / 100, 2, ',', '.'); ?>
+					<br /><br />
+					<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'adicionar', 'id' => $produto['id_produto']), null, true); ?>">	<img  src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/add.png'; ?>"/></a>
+					
+					</h3>
+					</div>
+					
+					
+					
+				</div>
+		<?PHP endforeach; ?>
+	<?php endif;?>
+	</div>
+
+
+	    

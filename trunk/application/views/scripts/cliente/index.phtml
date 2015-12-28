@@ -1,0 +1,14 @@
+﻿<?PHP 
+	$this->cadas = new Zend_view();
+	$this->cadas->addBasePath(APPLICATION_PATH . '/views/');
+	echo $this->cadas->render('cadastro/editar.phtml');
+?>
+<?php if(Misc::isLogged()): ?>
+<div class="conteudo-cliente">
+<h2>Pedidos</h2>
+<div class="forms-admin">
+<h3><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'pedido', 'action' => 'ultimos'), null, true); ?>">Últimos pedidos</a></h3>
+<p>Aqui você acompanha todo o seu histórico de pedidos. Você tambem pode refazer os pedidos por aqui.</p>
+</div>
+</div>
+<?php endif; ?>

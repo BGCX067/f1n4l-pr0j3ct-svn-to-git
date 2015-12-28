@@ -1,0 +1,39 @@
+﻿	<div class="menu-left">
+			<h2>Categorias</h2>
+				<ul>
+		<?php if(isset($this->categorias)):?>
+							<?PHP foreach ($this->categorias as $categoria): ?>
+							<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'index', 'categoria' => $categoria['nome_categoria']), null, true); ?>"><?php echo $categoria['nome_categoria'];?></a></li>
+							<?PHP endforeach; ?>
+							<div class="carrinho"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'carrinho', 'action' => 'index'), null, true); ?>"><img alt="carrinho" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/carrinho'. $this->carrinhoImagem .'.png' ?>"></a></div>
+
+		<?php else:?>
+					<li>Categoria 1</li>
+					
+		<?php endif;?>
+				</ul>
+	</div>
+	<div class="conteudo">
+	<h2>Novidades</h2>
+		<div class="novidades">
+			
+		
+			<?PHP foreach ($this->noticia as $noticia): ?>
+			<div class="noticia">
+		
+				<div class="foto-noticia">
+				<div class="img-view">
+					<img height="150" width="250" src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/novidades_fotos/'. $noticia['id_noticia'] . '.jpg';?>>
+					</div>
+				</div>
+				<div class="texto-noticia">
+					<h4><?PHP echo $noticia['titulo']; ?></h4>
+					<h3><?PHP echo $noticia['texto']; ?></h3>
+				</div>	
+			</div>
+				<?PHP endforeach; ?>
+		
+			
+			
+		</div>
+	</div>	

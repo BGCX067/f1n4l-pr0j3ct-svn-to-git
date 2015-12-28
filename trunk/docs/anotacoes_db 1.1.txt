@@ -1,0 +1,69 @@
+login								#tabela de dados de login do usuario
+	id_usuario,						#id
+	usuario,						#cpf
+	senha,							#
+	tipo_usuario,					#admin,user
+	ativo							#usuario esta ativo ou inativo?
+	pk: usuario
+
+contato								#tabela com dados adicionais do usuario
+	id_usuario						#referencia a campo id_usuario em login
+	dt_nasc,						#data de nascimento
+	telefone,						#
+	e-mail,							#
+	recebe_news						#usuario deseja receber newsletter?
+	pk: id_usuario
+
+endereco							#tabela complementar à de usuario, com informações de entrega
+	id_endereco,					#id
+	id_usuario,						#referencia a campo id_usuario em login
+	rua,							#
+	bairro,							#
+	numero,							#
+	complemento,					#
+	latitute,						#coordenada do endereço do cliente
+	longitude,						#coordenada do endereço do cliente
+	pk: id_endereco, id_usuario
+
+produto								#tabela com dados sobre os produtos
+	id_produto,						#id
+	nome,							#identificação do produto
+	preco,							#
+	categoria,						#referencia a campo id_categoria em categoria
+	promocao,						#produto aparece na página inicial?
+	excluido						#produto está ativo ou excluido?
+	pk: id_produto, nome
+
+ingredientes						#tabela de relacionamentos produto_ingrediente
+	id_produto,						#referencia a campo id_produto em produto
+	id_ingrediente,					#referencia a campo id_ingrediente em lista_ingredientes
+	opcional,						#ingrediente é opcional ou obrigatório?
+	qt_padrao,						#quantidade padrão do ingrediente no produto
+	qt_min,							#quantidade mínima do ingrediente no produto
+	qt_max,							#quantidade máxima do ingrediente no produto
+	pk: id_produto, id_ingrediente
+
+lista_ingredientes					#tabela com todos os ingredientes e respectivas ids
+	id_ingrediente,					#id
+	nome_ingrediente				#identificação do ingrediente
+	pk: id_ingrediente, nome_ingrediente
+
+categoria							#tabela com todas as categorias e respectivas ids
+	id_categoria					#id
+	nome_categoria					#identificação da categoria
+	pk: id_categoria, nome_categoria
+
+galeria								#tabela com informações sobre a galeria de fotos
+	id_foto							#id
+	descricao						#descrição breve da imagem
+	excluido						#imagem está ativa ou excluida?
+	pk: id_foto
+
+pedidos								#log dos pedidos
+	id_pedido						#id
+	id_usuario						#referencia a campo id_usuario em login
+	id_produto						#referencia a campo id_produto em produto
+	quantidade						#quantidade
+	estado							#em espera, enviando, entregue
+	data							#data de realização do pedido
+	pk: id_pedido, id_produto

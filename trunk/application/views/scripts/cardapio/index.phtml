@@ -1,0 +1,92 @@
+﻿
+	<div class="menu-left">
+			<h2>Categorias</h2>
+				<ul>
+		<?php if(isset($this->categorias)):?>
+							<?PHP foreach ($this->categorias as $categoria): ?>
+							<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'index', 'categoria' => $categoria['nome_categoria']), null, true); ?>"><?php echo $categoria['nome_categoria'];?></a></li>
+							<?PHP endforeach; ?>
+							<div class="carrinho"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'carrinho', 'action' => 'index'), null, true); ?>"><img alt="carrinho" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/carrinho'. $this->carrinhoImagem .'.png' ?>"></a></div>
+		<?php else:?>
+					<li>Categoria 1</li>
+					<li>Categoria 2</li>
+					<li>Categoria 3</li>
+					<li>Categoria 4</li>
+					<li>Categoria 5</li>
+					<li>Categoria 6</li>
+					<li>Categoria 7</li>
+					<li>Categoria 8</li>
+		<?php endif;?>
+				</ul>
+		</div>
+	
+	<div class="conteudo">
+	<?php if(isset($this->cat)):?>
+			<h2><?php echo $this->cat;?></h2>
+		<?php else:?>
+			<h2>Todos os produtos</h2>
+	<?php endif;?>
+	<?php if(isset($this->cat) && $this->cat == 'Combos'):?>
+		<?PHP foreach ($this->produto as $produto): ?>
+			<div class="combo">
+				<div class="add-to-cart">
+
+				<h4><?php echo $produto['nome'];?></h4>
+			<?php $imagem = 'img/produtos/'. $produto['id_produto_combo'] . '.jpg';?>
+			<?php if(file_exists($imagem)):?>
+				<img width="210" height="166" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/'. $produto['id_produto_combo'] . '.jpg'; ?>"/>
+				<?php else:?>
+				<img width="210" height="166" src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/sem-foto.gif'; ?> alt="<?PHP echo $produto['nome']; ?>" title="<?PHP echo $produto['nome']; ?>" />				
+			<?php endif;?>
+			<?php $id_produtos = array($produto['id_produto1'],$produto['id_produto2'],$produto['id_produto3'],$produto['id_produto4'],$produto['id_produto5']);?>
+
+				<?php $ingre = array();?>
+					<?php foreach ($id_produtos as $produtos):?>
+						<?php if($produtos != 0):?>
+							<?php 
+							$busca = $produtos;
+
+							$produtoModel = new Application_Model_Produto();
+								$nome_produto = $produtoModel->fetchAll(
+													$produtoModel->select()
+														->from($produtoModel->info(Zend_Db_Table_Abstract::NAME))
+														->columns(array('nome'))
+														->where('id_produto = ?', $busca)
+													);
+							?>
+								<?php $ingre[sizeof($ingre)+1] = $nome_produto[0]['nome'];?>
+						<?php endif;?>
+					<?php endforeach;?>
+					<p><?php foreach($ingre as $chave => $valor):?>
+						<?php echo $valor;?>
+						<?php if($chave == sizeof($ingre)):?>
+						<?php echo '.';?>
+						<?php else:?>
+						<?php echo ',';?>
+						<?php endif;?>
+					<?php endforeach;?>
+					</p>
+					
+					<h4>Preço: <?PHP echo 'R$ ' . number_format($produto['preco'] / 100, 2, ',', '.'); ?></h4>
+
+					<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'adicionar', 'id' => $produto['id_produto_combo']), null, true); ?>"><img src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/add.png'; ?>"/></a>
+				</div>
+			</div>
+		<?PHP endforeach; ?>
+	<?php else:?>
+		<?PHP foreach ($this->produto as $produto): ?>
+			<?php $imagem = 'img/produtos/'. $produto['id_produto'] . '.jpg';?>
+			<?php if(file_exists($imagem)):?>
+				<?php if($this->GetIngredientes($produto['id_produto']) != 0):?>
+					<div class="product">
+						<img width="100" height="100" src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/'. $produto['id_produto'] . '.jpg'; ?>"/>
+						<div class="add-to-cart">
+							<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'adicionar', 'id' => $produto['id_produto']), null, true); ?>"><img src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/add.png'; ?>"/></a>
+						</div>
+
+					</div>
+			<?php endif;?>
+			<?php endif;?>
+		<?PHP endforeach; ?>
+	<?php endif;?>
+	</div>

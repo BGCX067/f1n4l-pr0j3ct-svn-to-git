@@ -1,0 +1,50 @@
+﻿	<div class="conteudo-admin">
+		<h2>Contatos</h2>
+<div class="forms-admin">
+<div class="link-text">
+<a href="<?PHP echo $this->url(array('module' => 'admin', 'controller' => 'contatos', 'action' => 'index', 'respondida' => '0'), null, true); ?>">Não Respondidas</a> |
+<a href="<?PHP echo $this->url(array('module' => 'admin', 'controller' => 'contatos', 'action' => 'index', 'respondida' => '1'), null, true); ?>">Respondidas</a> |
+<a href="<?PHP echo $this->url(array('module' => 'admin', 'controller' => 'contatos', 'action' => 'index'), null, true); ?>">Todas</a> 
+</div>
+
+    <div class="table-admin">
+	<table border="1"  width="98%">
+        <tr class="linha3">
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th align="center">E-mail</th>
+            <th align="center">Mensagem</th>
+            <th align="center">Respondida?</th>
+            <th align="center">Mudar Status</th>
+        </tr>
+		<?php $linha = 0;?>
+    <?PHP foreach ($this->contatos as $contatos): ?>
+<?php 
+			if($linha == 0){
+				echo '<tr class="linha1">';
+				$linha = 1;
+			}else{
+				echo '<tr class="linha2">';
+				$linha = 0;
+			}
+			?>            <td><?PHP echo $contatos['nome']; ?></td>
+            <td><?PHP echo $contatos['telefone']; ?></td>
+            <td><?PHP echo $contatos['email']; ?></td>
+            <td><?PHP echo $contatos['mensagem']; ?></td>
+            <td>
+				<?PHP 
+					if($contatos['respondida'] == 1){ echo "Sim"; } else { echo "Não";} 
+				?>
+			</td>
+            <td align="center"><a href="<?PHP echo $this->url(array('action' => 'responder', 'id' => $contatos['id_msg'])); ?>">Responder</a></td>
+        </tr>
+    <?PHP endforeach; ?>
+    </table>
+		
+			
+		
+	</div>
+	
+	</div>
+	<p><input class="button-back" type="button" value=" Voltar " onclick="window.location='<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/admin' ?>'"></p>
+	</div>

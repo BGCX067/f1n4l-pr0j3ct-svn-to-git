@@ -1,0 +1,113 @@
+﻿<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <?php echo $this->headMeta() ?>
+        <?php echo $this->headTitle() ?>
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headStyle() ?>
+        <?php echo $this->headScript() ?>
+		<?php echo $this->headLink() ?>
+    </head>
+    <body>
+        <?PHP
+        $msg = '';
+        foreach ($this->priorityMessenger() as $title=>$messages) {
+            foreach ($messages as $message) {
+                $msg .= $message;
+            }
+        }
+        ?>
+<div id="wrapper">
+	<div id="header">
+		<div class="img-logo">
+			<a href="<?php echo 'http://' . $_SERVER['HTTP_HOST'];?>"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/logo.png' ?>></a>
+		</div>
+		<div id="login"	>
+			<?PHP 
+				$this->login = new Zend_view();
+				$this->login->addBasePath(APPLICATION_PATH . '/views/');
+				echo $this->login->render('login/index.phtml');
+			?>
+			<?php if(Misc::isLogged()):?>
+			<?php else: ?>
+				<div class="opcoes-user">
+				<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cadastro', 'action' => 'index'), null, true); ?>">Não tenho cadastro</a>|
+				<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'login', 'action' => 'esqueci'), null, true); ?>">Esqueci minha senha</a>
+				</div>
+			<?php endif; ?>
+        <h2><?php echo $msg; ?></h2>
+		
+</div>
+	</div>
+
+<div id="page">
+	<div id="menu">
+		<ul>
+			<li class="current_page_item"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'index'), null, true); ?>">Início</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'novidades'), null, true); ?>">Novidades</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'sobre'), null, true); ?>">Sobre nós</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'galeria'), null, true); ?>">Galeria</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio'), null, true); ?>">Cardápio</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'comocomprar'), null, true); ?>">Como Comprar</a></li>
+			<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'contato'), null, true); ?>">Contato</a></li>
+		</ul>
+	</div>
+	
+	<div id="content">
+		
+						<?php echo $this->layout()->content ?>
+
+			<?php 
+				$num = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+				$modulo = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+			?>	
+			<?php if($num == 'index' || $num == 'cadastro'):?>
+			<?php else: ?>
+			<?php if($modulo != 'admin'):?>
+						
+			<?php endif; ?>
+			<?php endif; ?>
+    </div>
+	
+</div>
+	<div id="footer">
+		
+		<div class="info-footer">
+		<div class="midias">
+			<?php if($num == 'index' && $modulo != 'admin'):?>
+			
+			<iframe src="http://projeto.mundoorange.com.br/rodrigo_arquivos/midias/" scrolling="no" frameborder="0" width="100%" height = "200">
+			</iframe>
+
+			
+			
+			<?php endif; ?>
+			</div>
+			<div class="menu-bottom">
+				<ul>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'index'), null, true); ?>">Início</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'novidades'), null, true); ?>">Novidades</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'sobre'), null, true); ?>">Sobre nós</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'galeria'), null, true); ?>">Galeria</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio'), null, true); ?>">Cardapio</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'comocomprar'), null, true); ?>">Como Comprar</a></li>
+					<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'contato'), null, true); ?>">Contato</a></li>
+				</ul>
+				
+				<p>
+					Projeto Final de Sistemas Para Internet 2011/2
+					<br />
+					Por: Ramon Souza, Rodrigo Dapper e Willian Wagner
+				
+				</p>
+				
+			</div>	
+				
+			
+		</div>
+	
+	  
+	</div>
+</div>
+    </body>
+</html>

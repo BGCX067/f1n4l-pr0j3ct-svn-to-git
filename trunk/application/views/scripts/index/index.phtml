@@ -1,0 +1,42 @@
+﻿<div class="banners">
+	<div class="slides" id="faded">
+		<div>			
+			<div>
+				<div id="bannerOne"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/banner1.jpg'?> /></div>				
+			</div>
+			<div>
+				<div id="bannerTwo"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/banner2.jpg'?> /></div>
+			</div>
+			<div>
+				<div id="bannerThree"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/banner3.jpg'?> /></div>
+			</div>
+		</div>
+		<ul class="pagination">
+			<li class="one"><a href="#" rel="0"></a></li>
+			<li class="two"><a href="#" rel="1"></a></li>
+			<li class="three"><a href="#" rel="2"></a></li>
+		</ul>
+    </div>
+</div>
+<div class="carousel-box">
+  <a href="#" class="prev"></a>
+  <a href="#" class="next"></a>
+  <div class="inner">
+				
+	  <div class="carousel">
+		  <ul>			 
+			<?PHP if (isset($this->produtos)): ?>
+					<?PHP foreach ($this->produtos as $produto): ?>
+						<li class="one"><img class="" src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/produtos/'. $produto['id_produto'] .'.jpg'?> width= "210" height= "166"></li>
+					<?PHP endforeach; ?>
+			<?PHP else: ?>
+			  <li class="one"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/01.jpg'?> width= "210" height= "166"></li>
+			  <li class="one"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/02.jpg'?> width= "210" height= "166"></li>
+			  <li class="one"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/03.jpg'?> width= "210" height= "166"></li>
+			  <li class="one"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/04.jpg'?> width= "210" height= "166"></li>
+			  <li class="one"><img src=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/img/05.jpg'?> width= "210" height= "166"></li>
+			<?PHP endif; ?>		  
+		  </ul>
+	  </div>
+  </div>
+</div>

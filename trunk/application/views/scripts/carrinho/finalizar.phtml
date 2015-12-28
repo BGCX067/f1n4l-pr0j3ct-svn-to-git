@@ -1,0 +1,113 @@
+﻿<?php 
+	$sessao = new Zend_Session_Namespace('SESSAO_CARRINHO');
+	$sessao->total = 0;
+	$sessao->troco = 0;
+?>
+<?php $total = 0;?>
+<?php $adicionais = 0;?>
+
+	<div class="menu-left">
+			<h2>Categorias</h2>
+				<ul>
+		<?php if(isset($this->categorias)):?>
+							<?PHP foreach ($this->categorias as $categoria): ?>
+							<li><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'cardapio', 'action' => 'index', 'categoria' => $categoria['nome_categoria']), null, true); ?>"><?php echo $categoria['nome_categoria'];?></a></li>
+							<?PHP endforeach; ?>
+		<?php else:?>
+					<li>Categoria 1</li>
+					<li>Categoria 2</li>
+					<li>Categoria 3</li>
+					<li>Categoria 4</li>
+					<li>Categoria 5</li>
+					<li>Categoria 6</li>
+					<li>Categoria 7</li>
+					<li>Categoria 8</li>
+		<?php endif;?>
+				</ul>
+		</div>
+	
+	<div class="conteudo">
+	<h2>Carrinho - finalizar</h2>
+	<?php if(isset($this->aviso)):?>
+	<div class="sucesso">
+		<?php echo $this->aviso;?>
+	</div>
+	<a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'pedido', 'action' => 'ultimos'), null, true); ?>">Acompanhe o estado do pedido aqui</a>
+	<?php else:?>	
+		<?php if(Misc::isLogged()):?>
+
+		<?php foreach($this->produtos as $posicao => $id):?>
+			<?php 
+			$busca = $id;
+			$produtoModel = new Application_Model_Produto();
+			$nome_prod = $produtoModel->fetchAll(
+			$produtoModel->select()
+					->from($produtoModel->info(Zend_Db_Table_Abstract::NAME))
+					->columns(array('nome', 'preco'))
+					->where('id_produto = ?', $busca)
+				);
+			?>
+			<?php $total += $nome_prod[0]['preco'];?>
+			<h4>Produto: <?php echo $nome_prod[0]['nome'];?></h4>
+			<h4><?PHP echo 'R$ ' . number_format($nome_prod[0]['preco'] / 100, 2, ',', '.');?></h4>
+			<?php if(isset($this->quantidades[$posicao])):?>
+				<?php foreach($this->quantidades[$posicao] as $idx => $qtd):?>
+					<?php 
+					$busca = $id;
+					$ingredd = $idx;
+					$relacionaModel = new Application_Model_Relacionamentos();
+					$filtro = $relacionaModel->fetchAll(
+						$relacionaModel->select()
+							->from($relacionaModel->info(Zend_Db_Table_Abstract::NAME))
+							->columns(array('qtd_padrao', 'valor'))
+							->where('id_produto = ?', $busca && 'id_ingrediente = ?', $ingredd)
+						);
+					
+					foreach($filtro as $dadoss){
+						if($dadoss['id_ingrediente'] == $ingredd){
+							$dados_ingred[0] = $dadoss;
+						}
+					}
+					$padrao = $dados_ingred[0]['qtd_padrao'];
+					?>
+					<?php if($qtd != $padrao):?>
+						<?php if($qtd > $padrao){ $diff = ($qtd - $padrao);}else{$diff = 0;}?>
+						<?php 
+							$busca = $idx;
+							$ingredienteModel = new Application_Model_Ingrediente();
+							$nome_ingr = $ingredienteModel->fetchAll(
+							$ingredienteModel->select()
+									->from($ingredienteModel->info(Zend_Db_Table_Abstract::NAME))
+									->columns(array('nome_ingrediente'))
+									->where('id_ingrediente = ?', $busca)
+								);
+						?>
+						<h4>Adicional: <?php echo $nome_ingr[0]['nome_ingrediente']; ?>; quantidade : <?php echo $qtd;?></h4>
+						<?php if($dados_ingred[0]['valor'] != 0):?>
+						+ <?PHP echo 'R$ ' . number_format(($diff * $dados_ingred[0]['valor']) / 100, 2, ',', '.');?>
+						<?php endif;?>
+						<?php $adicionais += ($diff * $dados_ingred[0]['valor']);?>
+					<?php endif;?>
+				<?php endforeach;?>
+			<?php endif;?>
+		<?php endforeach;?>
+		<?php $total += $adicionais;?>
+		<?php $sessao->total = $total;?>
+		<h4>Total: <?PHP echo 'R$ ' . number_format($total / 100, 2, ',', '.');?></h4>
+		<ul class="menus-admin">	
+		<li class="button-admin-no"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'carrinho', 'action' => 'index'), null, true); ?>">Voltar</a></li>
+		
+		<?php if((isset($this->dadosContato[0]['completo'])) && ($this->dadosContato[0]['completo'] == 1)):?>
+		<li class="button-admin"><a href="<?PHP echo $this->url(array('module' => 'default', 'controller' => 'carrinho', 'action' => 'finalizar', 'confirmar' => 1), null, true); ?>">Confirmar</a></li>
+		</ul>
+		<?php else:?>
+		<div class="avisos-erro">
+		<h3 style=": red;">Complete seus dados para poder realizar a compra!</h3>			
+		<?php endif;?>
+		<?php else:?>
+		<h3 style="color: red;">Efetue login para continuar!</h3>
+		
+		<?php endif;?>
+		<?php endif;?>
+		</div>
+	
